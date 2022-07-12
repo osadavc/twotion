@@ -8,8 +8,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/runtime": "^7.18.6",
+    "@types/chrome": "^0.0.193",
+    "@types/node": "^18.0.3",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "vite-plugin-chrome-extension": "^0.0.7"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
