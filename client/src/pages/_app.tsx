@@ -1,16 +1,20 @@
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { SessionProvider } from "next-auth/react";
 
 import "../styles/globals.css";
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const MyApp = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) => {
   return (
-    <>
+    <SessionProvider session={session}>
       <Head>
-        <title></title>
+        <title>Twotion | Write Twitter Threads With Ease</title>
       </Head>
       <Component {...pageProps} />
-    </>
+    </SessionProvider>
   );
 };
 

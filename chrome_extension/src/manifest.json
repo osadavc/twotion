@@ -1,10 +1,10 @@
 {
-  "name": "Chrome Extension with React",
+  "name": "Twotion | Write Twitter Threads With Ease",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "popup/index.html",
-    "default_title": "React Popup"
+    "default_title": "Twotion"
   },
   "icons": {
     "16": "icons/icon16.png",
