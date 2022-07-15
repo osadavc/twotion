@@ -12,6 +12,7 @@ const MyApp = ({
     <SessionProvider session={session}>
       <Head>
         <title>Twotion | Write Twitter Threads With Ease</title>
+        <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
       </Head>
       <Component {...pageProps} />
     </SessionProvider>
