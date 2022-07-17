@@ -1882,6 +1882,13 @@ next-auth@^4.10.0:
     preact-render-to-string "^5.1.19"
     uuid "^8.3.2"
 
+next-connect@^1.0.0-next.2:
+  version "1.0.0-next.2"
+  resolved "https://registry.yarnpkg.com/next-connect/-/next-connect-1.0.0-next.2.tgz#de229caac34597a774540bbfdbe6dd9ec23855e9"
+  integrity sha512-ywre1m3Hk06R6/bJXCyqwnAM+cB/w5rD1SVpa88nGEEsYUUzH1hZmqEkzPOb7VXkKUYzvtgqYxZs/FAtMFw+3g==
+  dependencies:
+    regexparam "^2.0.1"
+
 next@^12.1.6:
   version "12.2.2"
   resolved "https://registry.yarnpkg.com/next/-/next-12.2.2.tgz#029bf5e4a18a891ca5d05b189b7cd983fd22c072"
@@ -2308,6 +2315,11 @@ regexp.prototype.flags@^1.4.3:
     call-bind "^1.0.2"
     define-properties "^1.1.3"
     functions-have-names "^1.2.2"
+
+regexparam@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/regexparam/-/regexparam-2.0.1.tgz#c912f5dae371e3798100b3c9ce22b7414d0889fa"
+  integrity sha512-zRgSaYemnNYxUv+/5SeoHI0eJIgTL/A2pUtXUPLHQxUldagouJ9p+K6IbIZ/JiQuCEv2E2B1O11SjVQy3aMCkw==
 
 regexpp@^3.2.0:
   version "3.2.0"

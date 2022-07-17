@@ -10,7 +10,17 @@ generator client {
 }
 
 model User {
-  id    String  @id
-  name  String?
-  image String?
+  id     String              @id
+  name   String?
+  image  String?
+  notion NotionOAuthOptions?
+}
+
+model NotionOAuthOptions {
+  workspaceId   String @unique
+  workspaceName String
+  accessToken   String
+  botId         String
+  owner         Json
+  User          User   @relation(fields: [workspaceId], references: [id])
 }

@@ -25,7 +25,7 @@ export const auth = async (
   }
 
   req.user = session.user as User;
-  next();
+  return next();
 };
 
 export const onError = (
@@ -34,9 +34,9 @@ export const onError = (
   res: NextApiResponse
 ) => {
   console.log(err);
-  res.status(500).json({ statusCode: 500, message: err.message });
+  return res.status(500).json({ statusCode: 500, message: err.message });
 };
 
 export const onNoMatch = (req: NextApiRequest, res: NextApiResponse) => {
-  res.status(404).json({ statusCode: 404, message: "Not Found" });
+  return res.status(404).json({ statusCode: 404, message: "Not Found" });
 };
