@@ -69,7 +69,6 @@ export default NextAuth({
           accessToken: account.access_token,
           accessTokenExpires: (account.expires_at as number) * 1000,
           refreshToken: account.refresh_token,
-          username: account.providerAccountId,
           user,
         };
       }
@@ -78,17 +77,19 @@ export default NextAuth({
         return token;
       }
 
-      return await refreshAccessToken(token);
+      return refreshAccessToken(token);
     },
     async signIn({ user }) {
-      const existingUser = await prisma.user.findUnique({
-        where: {
-          id: user.id,
-        },
-      });
+      try {
+        const existingUser = await prisma.user.findUnique({
+          where: {
+            id: user.id,
+          },
+        });
 
-      if (!existingUser) {
-        const newUser = await prisma.user.create({
+        if (existingUser) return true;
+
+        await prisma.user.create({
           data: {
             id: user.id,
             name: user.name,
@@ -96,9 +97,9 @@ export default NextAuth({
           },
         });
 
-        return !!newUser;
-      } else {
         return true;
+      } catch (error) {
+        return false;
       }
     },
     async session({ session, token }: any) {

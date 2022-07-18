@@ -1,7 +1,13 @@
+import { FC } from "react";
 import axios from "axios";
 import { SiNotion } from "react-icons/si";
+import { NotionOAuthOptions } from "@prisma/client";
 
-const ConnectNotion = () => {
+interface ConnectNotionProps {
+  userNotion: NotionOAuthOptions | null;
+}
+
+const ConnectNotion: FC<ConnectNotionProps> = ({ userNotion }) => {
   const redirectToNotion = async () => {
     const {
       data: { data },
@@ -19,6 +25,11 @@ const ConnectNotion = () => {
       <p className="mt-2 w-[50%] text-center">
         Connect your Notion account and make sure to select an empty database to
         store your tweets
+      </p>
+
+      <p className="mt-2 font-bold text-red-500">
+        Error occurred while fetching notion database. Please reconnect and
+        select the correct database
       </p>
 
       <button

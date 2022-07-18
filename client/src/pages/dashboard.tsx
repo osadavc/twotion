@@ -17,7 +17,9 @@ const Dashboard: NextPage<DashboardProps> = ({ user }) => {
       <Header />
 
       <div className="mx-auto max-w-7xl px-4 pt-10">
-        {!user.notion?.accessToken && <ConnectNotion />}
+        {(!user.notion?.accessToken || user.notion.error) && (
+          <ConnectNotion userNotion={user.notion} />
+        )}
       </div>
     </div>
   );
