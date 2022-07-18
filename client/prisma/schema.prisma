@@ -23,4 +23,7 @@ model NotionOAuthOptions {
   botId         String
   owner         Json
   User          User   @relation(fields: [workspaceId], references: [id])
+
+  databaseId String?  @unique
+  error      Boolean?
 }

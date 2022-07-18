@@ -3,6 +3,7 @@ import env from "config";
 import prisma from "lib/prisma";
 import { NextApiResponse } from "next";
 import { createRouter } from "next-connect";
+import { Client } from "@notionhq/client";
 
 import {
   auth,
@@ -32,6 +33,14 @@ router.use(auth).get(async (req, res) => {
     }
   );
 
+  const notion = new Client({
+    auth: notionResponse.access_token,
+  });
+  const { results } = await notion.search({
+    page_size: 10,
+  });
+  const databaseId = results.find((result) => result.object === "database")?.id;
+
   await prisma.user.update({
     where: {
       id: req.user.id,
@@ -43,6 +52,8 @@ router.use(auth).get(async (req, res) => {
           botId: notionResponse.bot_id,
           owner: notionResponse.owner,
           workspaceName: notionResponse.workspace_name,
+          databaseId: databaseId,
+          error: !databaseId,
         },
       },
     },
