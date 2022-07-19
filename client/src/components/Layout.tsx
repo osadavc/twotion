@@ -10,7 +10,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
 
   useEffect(() => {
     if (session?.error === "RefreshAccessTokenError") {
-      signIn(); // Force sign in to hopefully resolve error
+      signIn("twitter");
     }
   }, [session]);
 
