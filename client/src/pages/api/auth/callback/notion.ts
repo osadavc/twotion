@@ -39,7 +39,16 @@ router.use(auth).get(async (req, res) => {
   const { results } = await notion.search({
     page_size: 10,
   });
-  const databaseId = results.find((result) => result.object === "database")?.id;
+
+  const notionDatabase = results.find(
+    (result) => result.object === "database"
+  ) as {
+    id: string;
+    url: string;
+  };
+  const pageSlug = notionDatabase?.url
+    ? notionDatabase?.url.split("/").pop()
+    : null;
 
   await prisma.user.update({
     where: {
@@ -52,8 +61,9 @@ router.use(auth).get(async (req, res) => {
           botId: notionResponse.bot_id,
           owner: notionResponse.owner,
           workspaceName: notionResponse.workspace_name,
-          databaseId: databaseId,
-          error: !databaseId,
+          databaseId: notionDatabase?.id,
+          pageSlug: pageSlug ? pageSlug : null,
+          error: !!(!notionDatabase?.id || !pageSlug),
         },
       },
     },

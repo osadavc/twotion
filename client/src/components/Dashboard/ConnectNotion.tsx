@@ -27,10 +27,12 @@ const ConnectNotion: FC<ConnectNotionProps> = ({ userNotion }) => {
         store your tweets
       </p>
 
-      <p className="mt-2 font-bold text-red-500">
-        Error occurred while fetching notion database. Please reconnect and
-        select the correct database
-      </p>
+      {userNotion?.error && (
+        <p className="mt-2 font-bold text-red-500">
+          Error occurred while fetching notion database. Please reconnect and
+          select the correct database
+        </p>
+      )}
 
       <button
         className="mt-6 flex items-center justify-center space-x-2 rounded-md border-2 py-2 px-4 transition-all hover:bg-zinc-100"

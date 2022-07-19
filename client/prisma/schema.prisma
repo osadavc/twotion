@@ -25,5 +25,6 @@ model NotionOAuthOptions {
   User          User   @relation(fields: [workspaceId], references: [id])
 
   databaseId String?  @unique
+  pageSlug   String?  @unique
   error      Boolean?
 }
