@@ -3,7 +3,8 @@ import Header from "components/Common/Header";
 import ConnectNotion from "components/Dashboard/ConnectNotion";
 import prisma from "lib/prisma";
 import { GetServerSideProps, NextPage } from "next";
-import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 interface DashboardProps {
   user: User & {
@@ -28,7 +29,11 @@ const Dashboard: NextPage<DashboardProps> = ({ user }) => {
 export default Dashboard;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getSession(ctx);
+  const session = await unstable_getServerSession(
+    ctx.req,
+    ctx.res,
+    authOptions
+  );
 
   if (!session) {
     return {
@@ -50,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      session,
+      session: JSON.stringify(session),
       user,
     },
   };

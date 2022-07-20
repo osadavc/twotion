@@ -1,6 +1,6 @@
 import env from "config";
 import prisma from "lib/prisma";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
 import qs from "qs";
 import { JWT } from "next-auth/jwt";
@@ -29,7 +29,7 @@ const refreshAccessToken = async (token: JWT) => {
       ...token,
       accessToken: data.access_token,
       accessTokenExpires: Date.now() + data.expires_in * 1000,
-      refreshToken: data.refresh_token,
+      refreshToken: data.refresh_token ?? token.refreshToken,
     };
   } catch (error: any) {
     console.log(error.response.data);
@@ -41,7 +41,7 @@ const refreshAccessToken = async (token: JWT) => {
   }
 };
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     TwitterProvider({
       clientId: env.twitterClientId,
@@ -73,11 +73,11 @@ export default NextAuth({
         };
       }
 
-      if (Date.now() < (token.accessTokenExpires as number)) {
-        return token;
-      }
+      // if (Date.now() < (token.accessTokenExpires as number)) {
+      //   return token;
+      // }
 
-      return refreshAccessToken(token);
+      return await refreshAccessToken(token);
     },
     async signIn({ user }) {
       try {
@@ -105,9 +105,13 @@ export default NextAuth({
     async session({ session, token }: any) {
       session.user = token.user;
       session.accessToken = token.accessToken;
+      session.accessTokenExpires = token.accessTokenExpires;
+      session.refreshToken = token.refreshToken;
       session.error = token.error;
 
       return session;
     },
   },
-});
+};
+
+export default NextAuth(authOptions);

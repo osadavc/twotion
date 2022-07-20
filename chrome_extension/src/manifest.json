@@ -2,6 +2,7 @@
   "name": "Twotion | Write Twitter Threads With Ease",
   "version": "1.0",
   "manifest_version": 3,
+  "host_permissions": ["*://*.twotion.osadavidath.com", "localhost:3000"],
   "action": {
     "default_popup": "popup/index.html",
     "default_title": "Twotion"
@@ -17,5 +18,6 @@
       "matches": ["<all_urls>"],
       "js": ["content-scripts/main.ts"]
     }
-  ]
+  ],
+  "permissions": ["cookies", "tabs"]
 }

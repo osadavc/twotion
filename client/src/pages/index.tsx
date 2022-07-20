@@ -1,7 +1,8 @@
 import Header from "components/Common/Header";
 import HeroSection from "components/Home/HeroSection";
 import type { GetServerSideProps, NextPage } from "next";
-import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 const Home: NextPage = () => {
   return (
@@ -17,7 +18,9 @@ export default Home;
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
-      session: await getSession(ctx),
+      session: JSON.stringify(
+        await unstable_getServerSession(ctx.req, ctx.res, authOptions)
+      ),
     },
   };
 };

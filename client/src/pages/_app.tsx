@@ -10,7 +10,7 @@ const MyApp = ({
   pageProps: { session, ...pageProps },
 }: AppProps) => {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} refetchInterval={0}>
       <Layout>
         <Head>
           <title>Twotion | Write Twitter Threads With Ease</title>
