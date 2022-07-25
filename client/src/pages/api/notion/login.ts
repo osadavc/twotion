@@ -12,7 +12,9 @@ import {
 
 const router = createRouter<NextApiRequestWithUser, NextApiResponse>();
 
-router.use(auth).get(async (req, res) => {
+router.use(auth);
+
+router.get(async (req, res) => {
   return res.json({
     data: `https://api.notion.com/v1/oauth/authorize?${qs.stringify({
       client_id: env.notionClientId,

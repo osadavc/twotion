@@ -73,9 +73,9 @@ export const authOptions: NextAuthOptions = {
         };
       }
 
-      // if (Date.now() < (token.accessTokenExpires as number)) {
-      //   return token;
-      // }
+      if (Date.now() < (token.accessTokenExpires as number)) {
+        return token;
+      }
 
       return await refreshAccessToken(token);
     },
