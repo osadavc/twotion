@@ -2,13 +2,14 @@ import Spinner from "./Common/Spinner";
 import logo from "../images/logo.png";
 import { useEffect, useState } from "react";
 import { useUser } from "../context/AuthContext";
-import { getNotionInfo } from "../services/apiService";
+import { getNotionInfo, tweetNotionPage } from "../services/apiService";
 
 const App = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState(false);
   const [tweeted, setTweeted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [path, setPath] = useState("");
   const user = useUser();
 
   useEffect(() => {
@@ -39,6 +40,8 @@ const App = () => {
                 "Please select a page or go to the database you selected during the configuration"
               );
             }
+
+            setPath(path);
             try {
               const data = await getNotionInfo(path);
 
@@ -61,8 +64,10 @@ const App = () => {
     setLoading(true);
 
     try {
+      await tweetNotionPage(path);
       setTweeted(true);
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
     }
