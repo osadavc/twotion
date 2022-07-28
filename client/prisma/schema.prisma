@@ -10,10 +10,11 @@ generator client {
 }
 
 model User {
-  id     String              @id
-  name   String?
-  image  String?
-  notion NotionOAuthOptions?
+  id             String              @id
+  name           String?
+  image          String?
+  notion         NotionOAuthOptions?
+  TwitterThreads TwitterThreads[]
 }
 
 model NotionOAuthOptions {
@@ -27,4 +28,26 @@ model NotionOAuthOptions {
   databaseId String?  @unique
   pageSlug   String?  @unique
   error      Boolean?
+}
+
+model TwitterThreads {
+  id     String  @id
+  User   User    @relation(fields: [id], references: [id])
+  Tweets Tweet[]
+}
+
+model Tweet {
+  id     String        @id
+  text   String
+  images TweetImages[]
+
+  TwitterThreads   TwitterThreads? @relation(fields: [twitterThreadsId], references: [id])
+  twitterThreadsId String?
+}
+
+model TweetImages {
+  id      String  @id
+  imageId String
+  Tweet   Tweet?  @relation(fields: [tweetId], references: [id])
+  tweetId String?
 }
