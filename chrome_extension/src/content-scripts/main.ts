@@ -17,11 +17,21 @@ const checkURLchange = async () => {
     });
 
     chrome.runtime.onMessage.addListener(
-      ({ isNotionPage }, sender, sendResponse) => {
+      ({ isNotionPage }, _, sendResponse) => {
         if (isNotionPage) {
           addIndicators();
         }
         sendResponse(true);
+      }
+    );
+
+    observer.observe(
+      document.querySelector(
+        "#notion-app > div > div.notion-cursor-listener > div.notion-peek-renderer > div > div.notion-scroller.vertical > div.whenContentEditable > div:nth-child(4) > div > div"
+      )!,
+      {
+        subtree: true,
+        childList: true,
       }
     );
     oldURL = window.location.href;
@@ -62,4 +72,9 @@ const addIndicators = async () => {
     });
 };
 
+const observer = new MutationObserver(() => {
+  addIndicators();
+});
+
+addIndicators();
 export {};

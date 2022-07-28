@@ -5,6 +5,7 @@ import { getSession } from "next-auth/react";
 export interface NextApiRequestWithUser extends NextApiRequest {
   user: User;
   accessToken: string;
+  accessSecret: string;
 }
 
 export interface User {
@@ -27,6 +28,7 @@ export const auth = async (
 
   req.user = session.user as User;
   req.accessToken = session.accessToken;
+  req.accessSecret = session.accessSecret as any;
   return next();
 };
 

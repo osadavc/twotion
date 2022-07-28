@@ -3,8 +3,8 @@ import axios from "axios";
 import prisma from "lib/prisma";
 import { NextApiResponse } from "next";
 import { createRouter } from "next-connect";
-import FormData from "form-data";
 import { TwitterApi } from "twitter-api-v2";
+import { fileTypeFromBuffer } from "file-type";
 
 import {
   auth,
@@ -12,6 +12,7 @@ import {
   onNoMatch,
   NextApiRequestWithUser,
 } from "utils/apiUtils";
+import env from "config";
 
 const router = createRouter<NextApiRequestWithUser, NextApiResponse>();
 
@@ -62,53 +63,57 @@ router.post(async (req, res) => {
 
   const tweetFormat: Array<any> = [];
 
-  const buffer = Buffer.from(
-    (
-      await axios.get(
-        "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/ffd38ed7-c408-4a08-b6c9-d161ca82fc2e/icon.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220727%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220727T025937Z&X-Amz-Expires=3600&X-Amz-Signature=9c2ffebb1c3494e257165b06d7c191d94a943489bc46fbf27b0c4213249ba436&X-Amz-SignedHeaders=host&x-id=GetObject",
-        {
-          responseType: "arraybuffer",
-        }
-      )
-    ).data,
-    "utf-8"
-  );
+  for (const item of pageContents) {
+    const itemData = item as any;
 
-  console.log(buffer.toString("base64"));
+    if (
+      itemData.type === "paragraph" &&
+      itemData.paragraph.rich_text.length > 0
+    ) {
+      tweetFormat.push({
+        text: itemData.paragraph.rich_text[0]?.text?.content,
+        media: {
+          media_ids: [],
+        },
+      });
 
-  const form = new FormData();
-  form.append("media_data", buffer.toString("base64"));
+      continue;
+    }
 
-  // pageContents.forEach(async (item) => {
-  //   const itemData = item as any;
+    const lastItem = tweetFormat.at(-1);
 
-  //   if (
-  //     itemData.type === "paragraph" &&
-  //     itemData.paragraph.rich_text.length > 0
-  //   ) {
-  //     tweetFormat.push({
-  //       text: itemData.paragraph.rich_text[0]?.text?.content,
-  //       media: {
-  //         media_ids: [],
-  //       },
-  //     });
-  //   }
+    if (itemData.type === "image" && lastItem) {
+      const twitterClient = new TwitterApi({
+        appKey: env.twitterClientId,
+        appSecret: env.twitterClientSecret,
+        accessToken: req.accessToken,
+        accessSecret: req.accessSecret,
+      });
 
-  //   const lastItem = tweetFormat.at(-1);
-  //   const twitterClient = new TwitterApi(req.accessToken);
+      const buffer = Buffer.from(
+        (
+          await axios.get(itemData.image.file.url, {
+            responseType: "arraybuffer",
+          })
+        ).data,
+        "utf-8"
+      );
+      console.log((await fileTypeFromBuffer(buffer))?.mime);
+      const mediaId = await twitterClient.v1.uploadMedia(buffer, {
+        mimeType: (await fileTypeFromBuffer(buffer))?.mime,
+      });
 
-  //   // itemData.image.file.url
+      tweetFormat.pop();
+      tweetFormat.push({
+        ...lastItem,
+        media: {
+          media_ids: [...lastItem.media?.media_ids, mediaId],
+        },
+      });
 
-  //   if (itemData.type === "image" && lastItem) {
-  //     tweetFormat.pop();
-  //     tweetFormat.push({
-  //       ...lastItem,
-  //       media: {
-  //         media_ids: [...lastItem.media?.media_ids, mediaId],
-  //       },
-  //     });
-  //   }
-  // });
+      continue;
+    }
+  }
 
   console.log(tweetFormat);
   res.json(tweetFormat);

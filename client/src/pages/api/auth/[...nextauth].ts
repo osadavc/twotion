@@ -2,59 +2,15 @@ import env from "config";
 import prisma from "lib/prisma";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
-import qs from "qs";
-import { JWT } from "next-auth/jwt";
-import { twitterClient } from "services/twitterClient";
-
-const refreshAccessToken = async (token: JWT) => {
-  try {
-    const { data } = await twitterClient.post(
-      "/oauth2/token",
-      qs.stringify({
-        grant_type: "refresh_token",
-        refresh_token: token.refreshToken,
-        client_id: env.twitterClientId,
-      }),
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Basic ${Buffer.from(
-            `${env.twitterClientId}:${env.twitterClientSecret}`
-          ).toString("base64")}`,
-        },
-      }
-    );
-
-    return {
-      ...token,
-      accessToken: data.access_token,
-      accessTokenExpires: Date.now() + data.expires_in * 1000,
-      refreshToken: data.refresh_token ?? token.refreshToken,
-    };
-  } catch (error: any) {
-    console.log(error.response.data);
-
-    return {
-      ...token,
-      error: "RefreshAccessTokenError",
-    };
-  }
-};
 
 export const authOptions: NextAuthOptions = {
   providers: [
     TwitterProvider({
       clientId: env.twitterClientId,
       clientSecret: env.twitterClientSecret,
-      version: "2.0",
       authorization: {
         params: {
-          scope: [
-            "tweet.write",
-            "users.read",
-            "offline.access",
-            "tweet.read",
-          ].join(" "),
+          scope: ["tweet.write", "users.read", "tweet.read"].join(" "),
         },
       },
     }),
@@ -65,19 +21,16 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, account, user }) {
       if (account && user) {
+        console.log(account);
+
         return {
-          accessToken: account.access_token,
-          accessTokenExpires: (account.expires_at as number) * 1000,
-          refreshToken: account.refresh_token,
+          accessToken: account.oauth_token,
+          accessSecret: account.oauth_token_secret,
           user,
         };
       }
 
-      if (Date.now() < (token.accessTokenExpires as number)) {
-        return token;
-      }
-
-      return await refreshAccessToken(token);
+      return token;
     },
     async signIn({ user }) {
       try {
@@ -105,8 +58,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }: any) {
       session.user = token.user;
       session.accessToken = token.accessToken;
-      session.accessTokenExpires = token.accessTokenExpires;
-      session.refreshToken = token.refreshToken;
+      session.accessSecret = token.accessSecret;
       session.error = token.error;
 
       return session;
