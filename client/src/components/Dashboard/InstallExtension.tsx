@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { SiGooglechrome } from "react-icons/si";
 
 const InstallExtension = () => {
-  const [isExtension, setIsExtension] = useState(false);
+  const [isExtension, setIsExtension] = useState(true);
 
   useEffect(() => {
     try {

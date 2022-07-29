@@ -12,7 +12,7 @@ const Header = () => {
   const isDashboard = router.pathname === "/dashboard";
 
   return (
-    <div className="mx-auto flex h-[90px] max-w-7xl items-center justify-between py-5 px-4">
+    <div className="mx-auto flex h-[90px] max-w-7xl items-center justify-between py-8 px-4">
       <Link href="/">
         <div className="cursor-pointer">
           <img src="/images/logo.png" alt="Twotion Logo" className="h-[70px]" />

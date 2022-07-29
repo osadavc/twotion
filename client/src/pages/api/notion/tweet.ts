@@ -137,6 +137,13 @@ router.post(async (req, res) => {
     }
   }
 
+  if (tweetFormat.length == 0) {
+    return res.status(400).json({
+      message: "No tweets found",
+      error: true,
+    });
+  }
+
   const data = await twitterClient.v2.tweetThread(
     tweetFormat.map((item) => ({
       ...item,
@@ -146,7 +153,7 @@ router.post(async (req, res) => {
 
   await prisma.twitterThreads.create({
     data: {
-      Tweets: {
+      tweets: {
         create: data.map((item, index) => ({
           id: item.data.id,
           text: item.data.text,
@@ -167,7 +174,7 @@ router.post(async (req, res) => {
       notionPageId: id,
     },
     include: {
-      Tweets: {
+      tweets: {
         include: {
           images: true,
         },

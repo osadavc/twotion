@@ -1,4 +1,10 @@
 {
-  "cSpell.words": ["Googlechrome", "NEXTAUTH", "notionhq", "Twotion"],
+  "cSpell.words": [
+    "Googlechrome",
+    "NEXTAUTH",
+    "nextui",
+    "notionhq",
+    "Twotion"
+  ],
   "discord.enabled": true
 }
