@@ -22,5 +22,8 @@
   "background": {
     "service_worker": "background.ts"
   },
+  "externally_connectable": {
+    "matches": ["*://localhost/*", "*://twotion.osadavidath.com/*"]
+  },
   "permissions": ["cookies", "tabs"]
 }

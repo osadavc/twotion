@@ -1,6 +1,7 @@
 import { NotionOAuthOptions, User } from "@prisma/client";
 import Header from "components/Common/Header";
 import ConnectNotion from "components/Dashboard/ConnectNotion";
+import InstallExtension from "components/Dashboard/InstallExtension";
 import prisma from "lib/prisma";
 import { GetServerSideProps, NextPage } from "next";
 import { unstable_getServerSession } from "next-auth";
@@ -17,10 +18,12 @@ const Dashboard: NextPage<DashboardProps> = ({ user }) => {
     <div>
       <Header />
 
-      <div className="mx-auto max-w-7xl px-4 pt-10">
+      <div className="mx-auto max-w-7xl space-y-3 px-4 pt-10">
         {(!user.notion?.accessToken || user.notion.error) && (
           <ConnectNotion userNotion={user.notion} />
         )}
+
+        <InstallExtension />
       </div>
     </div>
   );

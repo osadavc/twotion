@@ -38,8 +38,6 @@ const checkURLchange = async () => {
   }
 };
 
-setInterval(checkURLchange, 1000);
-
 const addIndicators = async () => {
   document
     .querySelectorAll(".notion-selectable.notion-text-block")
@@ -76,5 +74,9 @@ const observer = new MutationObserver(() => {
   addIndicators();
 });
 
-addIndicators();
+if (window.location.href.includes("notion.so")) {
+  setInterval(checkURLchange, 1000);
+  addIndicators();
+}
+
 export {};

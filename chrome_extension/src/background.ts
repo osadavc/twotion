@@ -62,4 +62,17 @@ chrome.runtime.onMessage.addListener(async (message, _, sendResponse) => {
   }
 });
 
+chrome.runtime.onMessageExternal.addListener((request, _, sendResponse) => {
+  if (request) {
+    if (request.message) {
+      switch (request.message) {
+        case "version": {
+          sendResponse({ version: 1.0 });
+        }
+      }
+    }
+  }
+  return true;
+});
+
 export {};
