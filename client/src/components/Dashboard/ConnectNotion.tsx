@@ -7,15 +7,15 @@ interface ConnectNotionProps {
   userNotion: NotionOAuthOptions | null;
 }
 
+export const redirectToNotion = async () => {
+  const {
+    data: { data },
+  } = await axios.get("/api/notion/login");
+
+  window.location.href = data;
+};
+
 const ConnectNotion: FC<ConnectNotionProps> = ({ userNotion }) => {
-  const redirectToNotion = async () => {
-    const {
-      data: { data },
-    } = await axios.get("/api/notion/login");
-
-    window.location.href = data;
-  };
-
   return (
     <div className="flex h-[300px] flex-col items-center justify-center rounded-md bg-zinc-50 px-5">
       <h2 className="text-center text-2xl font-semibold">

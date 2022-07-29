@@ -64,14 +64,25 @@ router.use(auth).get(async (req, res) => {
     },
     data: {
       notion: {
-        create: {
-          accessToken: notionResponse.access_token,
-          botId: notionResponse.bot_id,
-          owner: notionResponse.owner,
-          workspaceName: notionResponse.workspace_name,
-          databaseId: notionDatabase?.id,
-          pageSlug: pageSlug ? pageSlug : null,
-          error: !!(!notionDatabase?.id || !pageSlug),
+        upsert: {
+          create: {
+            accessToken: notionResponse.access_token,
+            botId: notionResponse.bot_id,
+            owner: notionResponse.owner,
+            workspaceName: notionResponse.workspace_name,
+            databaseId: notionDatabase?.id,
+            pageSlug: pageSlug ? pageSlug : null,
+            error: !!(!notionDatabase?.id || !pageSlug),
+          },
+          update: {
+            accessToken: notionResponse.access_token,
+            botId: notionResponse.bot_id,
+            owner: notionResponse.owner,
+            workspaceName: notionResponse.workspace_name,
+            databaseId: notionDatabase?.id,
+            pageSlug: pageSlug ? pageSlug : null,
+            error: !!(!notionDatabase?.id || !pageSlug),
+          },
         },
       },
     },

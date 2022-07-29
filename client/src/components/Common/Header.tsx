@@ -1,7 +1,9 @@
+import { redirectToNotion } from "components/Dashboard/ConnectNotion";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaTwitter } from "react-icons/fa";
+import { SiNotion } from "react-icons/si";
 
 const Header = () => {
   const router = useRouter();
@@ -18,16 +20,25 @@ const Header = () => {
       </Link>
 
       {isDashboard ? (
-        <button
-          className="flex items-center justify-center space-x-2 rounded-md border-2 py-2 px-4 transition-all hover:bg-zinc-50"
-          onClick={() => {
-            signOut({
-              callbackUrl: "/",
-            });
-          }}
-        >
-          <p>Log Out</p>
-        </button>
+        <div className="flex space-x-4">
+          <button
+            className="flex items-center justify-center space-x-2 rounded-md border-2 py-2 px-4 transition-all hover:bg-zinc-50"
+            onClick={redirectToNotion}
+          >
+            <SiNotion className="text-zinc-800" />
+            <p>Reconnect Notion</p>
+          </button>
+          <button
+            className="flex items-center justify-center space-x-2 rounded-md border-2 py-2 px-4 transition-all hover:bg-zinc-50"
+            onClick={() => {
+              signOut({
+                callbackUrl: "/",
+              });
+            }}
+          >
+            <p>Log Out</p>
+          </button>
+        </div>
       ) : (
         <div>
           {session ? (
