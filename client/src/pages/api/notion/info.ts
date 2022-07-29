@@ -46,6 +46,13 @@ router.get(async (req, res) => {
     });
   }
 
+  if (!notionResponse?.accessToken) {
+    return res.status(200).json({
+      message: "You need to authorize Notion first",
+      error: true,
+    });
+  }
+
   const notion = new Client({
     auth: notionResponse?.accessToken,
   });

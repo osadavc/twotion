@@ -61,7 +61,27 @@ router.post(async (req, res) => {
     page_size: 100,
   });
 
+  const postedTweet = await prisma.twitterThreads.findFirst({
+    where: {
+      notionPageId: id,
+    },
+  });
+
+  if (postedTweet) {
+    return res.status(400).json({
+      message: "Tweet already posted",
+      error: true,
+    });
+  }
+
   const tweetFormat: Array<any> = [];
+
+  const twitterClient = new TwitterApi({
+    appKey: env.twitterClientId,
+    appSecret: env.twitterClientSecret,
+    accessToken: req.accessToken,
+    accessSecret: req.accessSecret,
+  });
 
   for (const item of pageContents) {
     const itemData = item as any;
@@ -70,6 +90,16 @@ router.post(async (req, res) => {
       itemData.type === "paragraph" &&
       itemData.paragraph.rich_text.length > 0
     ) {
+      if (
+        itemData.paragraph.rich_text[0]?.text?.content.replace("\n", " ").trim()
+          .length > 280
+      ) {
+        return res.status(400).json({
+          message: "One or more tweets are too long",
+          error: true,
+        });
+      }
+
       tweetFormat.push({
         text: itemData.paragraph.rich_text[0]?.text?.content,
         media: {
@@ -83,13 +113,6 @@ router.post(async (req, res) => {
     const lastItem = tweetFormat.at(-1);
 
     if (itemData.type === "image" && lastItem) {
-      const twitterClient = new TwitterApi({
-        appKey: env.twitterClientId,
-        appSecret: env.twitterClientSecret,
-        accessToken: req.accessToken,
-        accessSecret: req.accessSecret,
-      });
-
       const buffer = Buffer.from(
         (
           await axios.get(itemData.image.file.url, {
@@ -98,7 +121,6 @@ router.post(async (req, res) => {
         ).data,
         "utf-8"
       );
-      console.log((await fileTypeFromBuffer(buffer))?.mime);
       const mediaId = await twitterClient.v1.uploadMedia(buffer, {
         mimeType: (await fileTypeFromBuffer(buffer))?.mime,
       });
@@ -115,8 +137,47 @@ router.post(async (req, res) => {
     }
   }
 
-  console.log(tweetFormat);
-  res.json(tweetFormat);
+  const data = await twitterClient.v2.tweetThread(
+    tweetFormat.map((item) => ({
+      ...item,
+      media: item.media?.media_ids.length > 0 ? item.media : undefined,
+    }))
+  );
+
+  await prisma.twitterThreads.create({
+    data: {
+      Tweets: {
+        create: data.map((item, index) => ({
+          id: item.data.id,
+          text: item.data.text,
+          images: {
+            createMany: {
+              data: tweetFormat[index].media.media_ids.map((item: any) => ({
+                imageId: item,
+              })),
+            },
+          },
+        })),
+      },
+      User: {
+        connect: {
+          id: req.user.id,
+        },
+      },
+      notionPageId: id,
+    },
+    include: {
+      Tweets: {
+        include: {
+          images: true,
+        },
+      },
+    },
+  });
+
+  res.json({
+    message: "Tweet posted",
+  });
 });
 
 export default router.handler({

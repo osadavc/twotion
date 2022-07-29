@@ -17,6 +17,10 @@ const router = createRouter<NextApiRequestWithUser, NextApiResponse>();
 router.use(auth).get(async (req, res) => {
   const { code } = req.query;
 
+  if (!code) {
+    return res.status(400).json({ error: "code is required" });
+  }
+
   const { data: notionResponse } = await axios.post(
     "https://api.notion.com/v1/oauth/token",
     {
@@ -32,6 +36,10 @@ router.use(auth).get(async (req, res) => {
       },
     }
   );
+
+  if (!notionResponse.access_token) {
+    return res.status(400).json({ error: "access_token is required" });
+  }
 
   const notion = new Client({
     auth: notionResponse.access_token,

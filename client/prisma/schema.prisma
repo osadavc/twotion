@@ -31,13 +31,14 @@ model NotionOAuthOptions {
 }
 
 model TwitterThreads {
-  id     String  @id
-  User   User    @relation(fields: [id], references: [id])
-  Tweets Tweet[]
+  id           String  @id
+  User         User    @relation(fields: [id], references: [id])
+  Tweets       Tweet[]
+  notionPageId String? @unique
 }
 
 model Tweet {
-  id     String        @id
+  id     String        @id @default(cuid())
   text   String
   images TweetImages[]
 
@@ -46,7 +47,7 @@ model Tweet {
 }
 
 model TweetImages {
-  id      String  @id
+  id      String  @id @default(cuid())
   imageId String
   Tweet   Tweet?  @relation(fields: [tweetId], references: [id])
   tweetId String?
