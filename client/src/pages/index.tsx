@@ -1,5 +1,8 @@
 import Header from "components/Common/Header";
+import Footer from "components/Home/Footer";
 import HeroSection from "components/Home/HeroSection";
+import Pricing from "components/Home/Pricing";
+import WhyTwotion from "components/Home/WhyTwotion";
 import type { GetServerSideProps, NextPage } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
@@ -9,6 +12,9 @@ const Home: NextPage = () => {
     <div>
       <Header />
       <HeroSection />
+      <WhyTwotion />
+      <Pricing />
+      <Footer />
     </div>
   );
 };
