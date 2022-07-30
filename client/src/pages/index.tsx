@@ -1,6 +1,7 @@
 import Header from "components/Common/Header";
 import Footer from "components/Home/Footer";
 import HeroSection from "components/Home/HeroSection";
+import HowTwotion from "components/Home/HowTwotion";
 import Pricing from "components/Home/Pricing";
 import WhyTwotion from "components/Home/WhyTwotion";
 import type { GetServerSideProps, NextPage } from "next";
@@ -13,6 +14,7 @@ const Home: NextPage = () => {
       <Header />
       <HeroSection />
       <WhyTwotion />
+      <HowTwotion />
       <Pricing />
       <Footer />
     </div>

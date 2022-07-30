@@ -23,8 +23,8 @@ const why = [
 
 const WhyTwotion = () => {
   return (
-    <div className="mx-auto max-w-7xl pt-8">
-      <h1 className="mt-4 text-center text-2xl font-extrabold capitalize lg:text-4xl">
+    <div className="mx-auto max-w-7xl pt-24">
+      <h1 className="mt-4 text-center text-3xl font-extrabold capitalize lg:text-4xl">
         Why Should You Use{" "}
         <span className="bg-gradient-to-br from-pink-600 to-purple-600 bg-clip-text text-transparent">
           Twotion
@@ -36,7 +36,7 @@ const WhyTwotion = () => {
         writing applications.
       </p>
 
-      <div className="mt-12 grid gap-5 lg:grid-cols-3">
+      <div className="mt-12 grid gap-5 px-4 lg:grid-cols-3">
         {why.map((item, index) => (
           <div
             key={index}
