@@ -5,8 +5,7 @@ import HowTwotion from "components/Home/HowTwotion";
 import Pricing from "components/Home/Pricing";
 import WhyTwotion from "components/Home/WhyTwotion";
 import type { GetServerSideProps, NextPage } from "next";
-import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]";
+import { getSession } from "next-auth/react";
 
 const Home: NextPage = () => {
   return (
@@ -26,9 +25,7 @@ export default Home;
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
-      session: JSON.stringify(
-        await unstable_getServerSession(ctx.req, ctx.res, authOptions)
-      ),
+      session: await getSession(ctx),
     },
   };
 };

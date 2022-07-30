@@ -5,8 +5,7 @@ import InstallExtension from "components/Dashboard/InstallExtension";
 import TwitterThreadList from "components/Dashboard/TwitterThreadList";
 import prisma from "lib/prisma";
 import { GetServerSideProps, NextPage } from "next";
-import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]";
+import { getSession } from "next-auth/react";
 
 interface DashboardProps {
   user: User & {
@@ -44,11 +43,7 @@ const Dashboard: NextPage<DashboardProps> = ({
 export default Dashboard;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await unstable_getServerSession(
-    ctx.req,
-    ctx.res,
-    authOptions
-  );
+  const session = await getSession(ctx);
 
   if (!session) {
     return {
@@ -80,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      session: JSON.stringify(session),
+      session: session,
       user: JSON.parse(JSON.stringify(user)),
     },
   };
