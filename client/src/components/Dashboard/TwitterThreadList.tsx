@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { MdPreview } from "react-icons/md";
 import { Tooltip } from "@nextui-org/react";
+import Popup from "components/Dashboard/TweetThreadPopup";
 
 interface TwitterThreadListProps {
   twitterThreads: (TwitterThreads & {
@@ -14,6 +15,8 @@ interface TwitterThreadListProps {
 }
 
 const TwitterThreadList: FC<TwitterThreadListProps> = ({ twitterThreads }) => {
+  const [tweetId, setTweetId] = useState<Array<string>>([]);
+
   return (
     <div className="pt-5">
       <div>
@@ -23,6 +26,14 @@ const TwitterThreadList: FC<TwitterThreadListProps> = ({ twitterThreads }) => {
           tweet threads.
         </p>
       </div>
+
+      <Popup
+        isOpen={tweetId.length > 0}
+        onClose={() => {
+          setTweetId([]);
+        }}
+        tweetId={tweetId}
+      />
 
       <div className="mt-8 space-y-3">
         {twitterThreads.length === 0 && (
@@ -73,7 +84,11 @@ const TwitterThreadList: FC<TwitterThreadListProps> = ({ twitterThreads }) => {
                   </button>
                 </Tooltip>
                 <Tooltip content="Preview Thread">
-                  <button onClick={() => {}}>
+                  <button
+                    onClick={() => {
+                      setTweetId(thread.tweets.map((tweet) => tweet.id));
+                    }}
+                  >
                     <MdPreview />
                   </button>
                 </Tooltip>
