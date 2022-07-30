@@ -27,7 +27,8 @@ const InstallExtension = () => {
     }
   }, []);
 
-  if (isExtension) return null;
+  // Will be fixed when the extension is approved by chrome webstore
+  if (isExtension || true) return null;
 
   return (
     <div className="flex h-[300px] flex-col items-center justify-center rounded-md bg-zinc-50 px-5">

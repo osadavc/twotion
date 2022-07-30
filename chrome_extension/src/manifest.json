@@ -1,8 +1,10 @@
 {
-  "name": "Twotion | Write Twitter Threads With Ease",
+  "name": "Twotion",
+  "description": "Write Twitter Threads With Ease Without Leaving Notion",
   "version": "1.0",
+  "author": "Osada Vidath",
   "manifest_version": 3,
-  "host_permissions": ["https://twotion.osadavidath.com", "<all_urls>"],
+  "host_permissions": ["https://twotion.osadavidath.com", "*://localhost/*"],
   "action": {
     "default_popup": "popup/index.html",
     "default_title": "Twotion"
@@ -25,5 +27,6 @@
   "externally_connectable": {
     "matches": ["*://localhost/*", "*://twotion.osadavidath.com/*"]
   },
+  "homepage_url": "https://twotion.osadavidath.com",
   "permissions": ["cookies", "tabs"]
 }
