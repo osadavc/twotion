@@ -85,7 +85,7 @@ const HowTwotion = () => {
         {why.map((item, index) => (
           <div
             key={index}
-            className="flex w-full flex-col items-center rounded-xl border py-10 px-2 text-center"
+            className="flex w-full flex-col items-center rounded-xl border py-10 px-4 text-center md:px-10"
           >
             <h1 className="text-4xl font-bold">{index + 1}</h1>
             <h2 className="mt-7 mb-3 text-center text-xl font-extrabold capitalize lg:text-2xl">

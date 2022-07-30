@@ -28,6 +28,16 @@ export const getNotionInfo = async (pageId: string) => {
   return data;
 };
 
+export const isPageTweeted = async (pageId: string) => {
+  const { data } = await client.get("/notion/isTweeted", {
+    params: {
+      pageId,
+    },
+  });
+
+  return data;
+};
+
 export const tweetNotionPage = async (pageId: string) => {
   const { data } = await client.post("/notion/tweet", {
     pageId,

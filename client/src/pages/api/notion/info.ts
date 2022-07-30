@@ -43,6 +43,7 @@ router.get(async (req, res) => {
       message:
         "You're in the correct database. Create a new page inside it to start creating new twitter thread",
       error: false,
+      code: 1,
     });
   }
 
@@ -50,6 +51,7 @@ router.get(async (req, res) => {
     return res.status(200).json({
       message: "You need to authorize Notion first",
       error: true,
+      code: 2,
     });
   }
 
@@ -76,6 +78,7 @@ router.get(async (req, res) => {
       message:
         "You're not in the correct database. Please open the connected database",
       error: true,
+      code: 3,
     });
   }
 
@@ -85,8 +88,9 @@ router.get(async (req, res) => {
   ) {
     return res.status(200).json({
       message:
-        "Your page is not in the correct database. Please open a page in the correct database",
+        "Your page is not in the correct database. Please open a page in the correct database to tweet",
       error: true,
+      code: 4,
     });
   }
 

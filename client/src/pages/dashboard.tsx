@@ -33,7 +33,9 @@ const Dashboard: NextPage<DashboardProps> = ({
         )}
 
         <InstallExtension />
-        <TwitterThreadList twitterThreads={twitterThreads} />
+        {user.notion?.accessToken && (
+          <TwitterThreadList twitterThreads={twitterThreads} />
+        )}
       </div>
     </div>
   );
