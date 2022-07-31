@@ -54,7 +54,7 @@ router.get(async (req, res) => {
   }
 
   const notionPageId = (
-    await prisma.twitterThreads.findUnique({
+    await prisma.twitterThreads.findFirst({
       where: {
         notionPageId: notionData?.id,
       },
