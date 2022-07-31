@@ -40,17 +40,23 @@ router.get(async (req, res) => {
     auth: notionResponse?.accessToken,
   });
 
-  const { id } = (
+  const notionData = (
     await notion.search({
       page_size: 1,
       query: pageId,
     })
-  ).results[0];
+  )?.results?.[0];
+
+  if (!notionData) {
+    return res.status(200).json({
+      isTweeted: false,
+    });
+  }
 
   const notionPageId = (
     await prisma.twitterThreads.findUnique({
       where: {
-        notionPageId: id,
+        notionPageId: notionData?.id,
       },
     })
   )?.notionPageId;

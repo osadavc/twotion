@@ -65,7 +65,7 @@ const App = () => {
               setError("Error Ocurred");
 
               setCode((error as any).response.status === 401 ? 401 : 500);
-              if ((error as any).response.status === 401 ? 401 : 500) {
+              if ((error as any).response.status === 401) {
                 setError("Login To Twotion Before Continuing");
               }
             } finally {
