@@ -47,7 +47,7 @@ const TwitterThreadList: FC<TwitterThreadListProps> = ({ twitterThreads }) => {
           const [postedDate, setPostedDate] = useState<string>("");
 
           useEffect(() => {
-            setPostedDate(new Date(thread.postedTime).toLocaleString());
+            setPostedDate(new Date(thread.postedTime!).toLocaleString());
           }, [thread.postedTime]);
 
           return (
