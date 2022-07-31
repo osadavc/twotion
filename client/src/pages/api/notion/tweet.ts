@@ -153,6 +153,8 @@ router.post(async (req, res) => {
 
   await prisma.twitterThreads.create({
     data: {
+      notionPageId: id,
+      postedTime: new Date(),
       tweets: {
         create: data.map((item, index) => ({
           id: item.data.id,
@@ -171,8 +173,6 @@ router.post(async (req, res) => {
           id: req.user.id,
         },
       },
-      notionPageId: id,
-      postedTime: new Date(),
     },
     include: {
       tweets: {
@@ -180,6 +180,7 @@ router.post(async (req, res) => {
           images: true,
         },
       },
+      User: true,
     },
   });
 

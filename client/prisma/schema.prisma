@@ -32,7 +32,8 @@ model NotionOAuthOptions {
 
 model TwitterThreads {
   id           String    @id @default(cuid())
-  User         User      @relation(fields: [id], references: [id])
+  userId       String
+  User         User      @relation(fields: [userId], references: [id])
   tweets       Tweet[]
   notionPageId String?
   postedTime   DateTime? @default(now())
