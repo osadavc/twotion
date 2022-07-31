@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BASE_URL = "http://localhost:3000/api";
+export const BASE_URL = "https://twotion.osadavidath.com/api";
 
 export const client = axios.create({
   baseURL: BASE_URL,

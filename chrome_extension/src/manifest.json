@@ -4,7 +4,7 @@
   "version": "1.0",
   "author": "Osada Vidath",
   "manifest_version": 3,
-  "host_permissions": ["https://twotion.osadavidath.com", "*://localhost/*"],
+  "host_permissions": ["*://twotion.osadavidath.com/*", "*://localhost/*"],
   "action": {
     "default_popup": "popup/index.html",
     "default_title": "Twotion"
