@@ -1,4 +1,7 @@
-import { MdOutlineMobileFriendly } from "react-icons/md";
+import {
+  MdOutlineMobileFriendly,
+  MdOutlineMoneyOffCsred,
+} from "react-icons/md";
 import { SiNotion } from "react-icons/si";
 
 const why = [
@@ -14,7 +17,7 @@ const why = [
     description: "Twotion uses Notion to create and manage a thread.",
   },
   {
-    icon: MdOutlineMobileFriendly,
+    icon: MdOutlineMoneyOffCsred,
     title: "Free Of Charge",
     description:
       "Twotion is free to use and has no cost. Notion PRO plan is not required",
