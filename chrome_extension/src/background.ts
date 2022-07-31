@@ -29,7 +29,7 @@ try {
             pageDetails.searchParams.get("p") ??
             pageDetails.pathname.split("/")[1];
 
-          if (!path) {
+          if (!path || path.length !== 32) {
             return;
           }
           try {

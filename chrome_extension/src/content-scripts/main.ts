@@ -21,20 +21,21 @@ try {
         ({ isNotionPage }, _, sendResponse) => {
           if (isNotionPage) {
             addIndicators();
+
+            observer.observe(
+              document.querySelector(
+                "#notion-app > div > div.notion-cursor-listener > div.notion-peek-renderer > div > div.notion-scroller.vertical > div.whenContentEditable > div:nth-child(4) > div > div"
+              )!,
+              {
+                subtree: true,
+                childList: true,
+              }
+            );
           }
           sendResponse(true);
         }
       );
 
-      observer.observe(
-        document.querySelector(
-          "#notion-app > div > div.notion-cursor-listener > div.notion-peek-renderer > div > div.notion-scroller.vertical > div.whenContentEditable > div:nth-child(4) > div > div"
-        )!,
-        {
-          subtree: true,
-          childList: true,
-        }
-      );
       oldURL = window.location.href;
     }
   };

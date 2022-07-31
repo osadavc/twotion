@@ -9,5 +9,5 @@
     "nprogress",
     "Twotion"
   ],
-  "discord.enabled": true
+  "discord.enabled": false
 }
