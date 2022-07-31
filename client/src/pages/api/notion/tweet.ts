@@ -168,11 +168,7 @@ router.post(async (req, res) => {
           },
         })),
       },
-      User: {
-        connect: {
-          id: req.user.id,
-        },
-      },
+      userId: req.user.id,
     },
     include: {
       tweets: {
