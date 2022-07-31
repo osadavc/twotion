@@ -42,7 +42,7 @@ const App = () => {
           ) {
             const path =
               pageDetails.searchParams.get("p") ??
-              pageDetails.pathname.split("/")[1];
+              pageDetails.pathname.split("/").at(-1)!;
 
             if (!path || path.length !== 32) {
               setError(
