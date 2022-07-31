@@ -36,7 +36,7 @@ const why = [
       <p>
         Install the browser extension from{" "}
         <a
-          href="https://osadavc.notion.site/3dbc792f46b94d40bf776c48985f9026?v=fbc91cbcb5a34ca3a42b2cf84ad73169"
+          href="https://github.com/osadavc/twotion#how-to-install-browser-extension"
           target="_blank"
           className="bg-gradient-to-br from-pink-600 to-purple-600 bg-clip-text text-transparent"
         >

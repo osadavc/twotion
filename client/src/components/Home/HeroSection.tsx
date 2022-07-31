@@ -29,7 +29,7 @@ const HeroSection = () => {
         productivity application for completely free
       </p>
 
-      <div className="mt-10">
+      <div className="mt-10 flex flex-col items-center space-y-2 md:flex-row md:space-y-0 md:space-x-2">
         {isDashboard ? (
           <button
             className="flex items-center justify-center space-x-2 rounded-md border-2 py-2 px-4 transition-all hover:bg-zinc-50"
@@ -67,6 +67,17 @@ const HeroSection = () => {
             )}
           </div>
         )}
+
+        <button
+          className="flex items-center justify-center space-x-2 rounded-md border-2 py-2 px-4 transition-all hover:bg-zinc-50"
+          onClick={() => {
+            window.open(
+              "https://github.com/osadavc/twotion#how-to-install-browser-extension"
+            );
+          }}
+        >
+          <p>Install Browser Extension</p>
+        </button>
       </div>
     </div>
   );
