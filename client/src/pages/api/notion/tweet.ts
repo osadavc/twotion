@@ -90,10 +90,14 @@ router.post(async (req, res) => {
       itemData.type === "paragraph" &&
       itemData.paragraph.rich_text.length > 0
     ) {
-      if (
-        itemData.paragraph.rich_text[0]?.text?.content.replace("\n", " ").trim()
-          .length > 280
-      ) {
+      const text = itemData.paragraph.rich_text.reduce(
+        (acc: string, cur: any) => {
+          return acc + cur.text.content;
+        },
+        ""
+      );
+
+      if (text.trim().length > 280) {
         return res.status(400).json({
           message: "One or more tweets are too long",
           error: true,
@@ -101,7 +105,7 @@ router.post(async (req, res) => {
       }
 
       tweetFormat.push({
-        text: itemData.paragraph.rich_text[0]?.text?.content,
+        text: text,
         media: {
           media_ids: [],
         },
