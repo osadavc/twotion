@@ -172,6 +172,7 @@ router.post(async (req, res) => {
         },
       },
       notionPageId: id,
+      postedTime: new Date(),
     },
     include: {
       tweets: {
