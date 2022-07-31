@@ -34,7 +34,7 @@ model TwitterThreads {
   id           String    @id @default(cuid())
   User         User      @relation(fields: [id], references: [id])
   tweets       Tweet[]
-  notionPageId String?   @unique
+  notionPageId String?
   postedTime   DateTime? @default(now())
 }
 
