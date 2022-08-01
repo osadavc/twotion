@@ -42,7 +42,7 @@ model TwitterThreads {
 model Tweet {
   itemId String        @id @default(cuid())
   id     String
-  text   String
+  text   String        @db.VarChar(5000)
   images TweetImages[]
 
   twitterThreads   TwitterThreads? @relation(fields: [twitterThreadsId], references: [id])
