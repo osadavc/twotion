@@ -28,7 +28,8 @@ const App = () => {
         { type: "getURL" },
         async (response) => {
           if (!response) {
-            setError(
+            setIsPageLoading(false);
+            return setError(
               "You're not inside notion. Please open notion before proceeding"
             );
           }
