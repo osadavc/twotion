@@ -1,13 +1,7 @@
 <p align="center"><img src="client/public/images/logo.png" width="150" /></p>
 <h2 align="center">Twotion | The Easiest Way To Write Twitter Threads</h2>
 
-Write Twitter threads and post them in one click without leaving Notion.
-
-- Completely Free
-- No Need To Leave Notion
-- No Need To Install Any Software
-- No Learning Curve
-- No Copying And Pasting From Notion Written Threads To Another Software To Tweet
+Write Twitter (X) threads in Notion and post them in one click without leaving Notion.
 
 ## How To Install Browser Extension
 
